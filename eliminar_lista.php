@@ -1,4 +1,4 @@
-<?php include ('conexion.php'); //cambiar la conexion
+<?php include ('modulos/conexion.php'); //cambiar la conexion
 ?>
 <!DOCTYPE html>
 <html>

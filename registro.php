@@ -1,5 +1,5 @@
 <?php
-include "modulos/conexion copy.php";
+include "modulos/conexion.php";
 // Establecer conexión
 
 

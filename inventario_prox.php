@@ -1,4 +1,4 @@
-<?php include ('conexion.php'); ?>
+<?php include ('modulos/conexion.php'); ?>
 
 <!DOCTYPE html>
 <html>

@@ -1,27 +1,37 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
+include "conexion.php";
 
-include "conexion copy.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $_POST['username'];
     $pass = $_POST['password'];
 
     // Consulta SQL para verificar el usuario y la contraseña
-    try{
-    $sql = "EXEC logeo @user=?";
-    $parametros = array($user);
-    $stmt = sqlsrv_query($conectar, $sql,$parametros);
-    //Se valida si hay registros en base al login
+    try {
+        $sql = "EXEC logeo @user=?";
+        $parametros = array($user);
+        $stmt = sqlsrv_prepare($conectar, $sql, $parametros);
 
-    
-    if($stmt === false){
-        echo'<script type="text/javascript">
-        alert("Credenciales incorrectas");
-        window.location.href="../index.html"
-        </script>';
-        exit;
-    }else{
-        //para verificaar si concide con el registro
+        if ($stmt === false) {
+            throw new Exception('Error al preparar la consulta: ' . print_r(sqlsrv_errors(), true));
+        }
+
+        if (sqlsrv_execute($stmt) === false) {
+            throw new Exception('Error al ejecutar la consulta: ' . print_r(sqlsrv_errors(), true));
+        }
+
+        // Verificar si hay registros
+        if (sqlsrv_has_rows($stmt) === false) {
+            echo '<script type="text/javascript">
+            alert("Credenciales incorrectas");
+            window.location.href="../index.html";
+            </script>';
+            exit;
+        } else {
+             //para verificar si concide con el registro
         while( $row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_NUMERIC) ) {
             //si es correcto
             if ($row[1]==$pass){
@@ -30,30 +40,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 window.location.href="../menu.php"
                 </script>';
                 exit;
-            } // si no lo mando a ingresar de nuevo
-            else{
-                echo'<script type="text/javascript">
+            }
+            else {
+                echo '<script type="text/javascript">
                 alert("Credenciales incorrectas");
-                window.location.href="../index.html"
+                window.location.href="../index.html";
                 </script>';
                 exit;
             }
-            }
+        }
     }
-            sqlsrv_close($conectar);
 }
-    catch(Exception $e){
+    catch (Exception $e) {
+        // Registrar el error en un archivo
         $fichero = "logs.txt";
-        $errores = sqlsrv_errors();
-        file_put_contents($fichero, $errores);
+        file_put_contents($fichero, $e->getMessage() . "\n", FILE_APPEND);
+        echo '<script type="text/javascript">
+        alert("Credenciales incorrectas");
+        window.location.href="../index.html";
+        </script>';
         exit;
+    } finally {
+        // Cerrar la conexión
+        sqlsrv_close($conectar);
     }
-    /*
-    if ($stmt === false) {
-        die("<tr><td colspan='8'>Error en la consulta: ".print_r(sqlsrv_errors(), true)."</td></tr>");
-    }
-
-    $val = false;*/
 }
-
 ?>

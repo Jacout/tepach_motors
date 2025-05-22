@@ -54,7 +54,7 @@
         <div class="menu">
             <a href="menu_inventario.php">🚗 Ver Inventario de Automóviles</a>
             <a href="registro.php">➕ Ingresar un Automóvil</a>
-            <a href="actualizar.php">✏️ Actualizar Datos de un Automóvil</a>
+            <a href="modificar.php">✏️ Actualizar Datos de un Automóvil</a>
             <a href="eliminar_lista.php">🗑️ Eliminar un Automóvil</a>
         </div>
         <div style="text-align: right; margin-bottom: 20px;">

@@ -1,31 +1,5 @@
 <?php
-include "conexion.php";
-
-// Si es una modificación (POST), primero actualiza:
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
-    if ($id === 0) {
-        die("ID inválido");
-    }
-
-    $nombre = $_POST['nombre'];
-    $modelo = $_POST['modelo'];
-    $marca = $_POST['marca'];
-    $tipo_auto = $_POST['tipo_auto'];
-    $tipo_trans = $_POST['tipo_trans'];
-    $fecha = $_POST['fechastock'] ? date_create($_POST['fechastock']) : null;
-
-    $sqlUpdate = "UPDATE tbinv_autos SET nombre = ?, modelo = ?, marca = ?, tipoauto = ?, transmision = ?, fechaStock = ? WHERE idauto = ?";
-    $params = [$nombre, $modelo, $marca, $tipo_auto, $tipo_trans, $fecha, $id];
-    $stmt = sqlsrv_query($conectar, $sqlUpdate, $params);
-
-    if ($stmt) {
-        echo "<script>alert('Auto modificado exitosamente'); window.location = 'modificar.php';</script>";
-        exit;
-    } else {
-        echo "<p>Error al modificar: ".print_r(sqlsrv_errors(), true)."</p>";
-    }
-}
+include "modulos/conexion.php";
 
 // Si es GET, mostrar el formulario
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -118,7 +92,7 @@ $options4 = obtenerOpciones("tbTipoTrans", $conectar);
 </head>
 <body>
     <div class="form-container">
-        <form action="modificar_auto.php" method="post">
+        <form action="modulos/actualizar.php" method="post">
             <h2>Modificar Auto ID: <?= $id ?></h2>
             <input type="hidden" name="id" value="<?= $id ?>">
 

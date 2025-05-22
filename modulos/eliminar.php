@@ -4,7 +4,7 @@ include('conexion.php');
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    $sql = "DELETE FROM tbinv_autos WHERE idauto = ?";
+    $sql = "EXEC Eliminar @id=?";
     $stmt = sqlsrv_prepare($conectar, $sql, [$id]);
 
     if ($stmt && sqlsrv_execute($stmt)) {
