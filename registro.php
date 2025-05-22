@@ -20,7 +20,7 @@ while ($row = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC)) {
 sqlsrv_free_stmt($stmt1);
 
 
-$sql2 = "SELECT * FROM tbAno";
+$sql2 = "SELECT * FROM tbmarca";
 $stmt2 = sqlsrv_query($conectar, $sql2);
 if ($stmt2 === false) { 
       $errors = sqlsrv_errors();
@@ -54,8 +54,8 @@ while ($row = sqlsrv_fetch_array($stmt3, SQLSRV_FETCH_ASSOC)) {
 }
 sqlsrv_free_stmt($stmt3);
 
-$sql4 = "SELECT * FROM tbTipoTransm";
-$stmt4 = sqlsrv_query($conectar, $sql3);
+$sql4 = "SELECT * FROM tbTipoTrans";
+$stmt4 = sqlsrv_query($conectar, $sql4);
 if ($stmt4 === false) { 
     $errors = sqlsrv_errors();
     $errorMessage = print_r($errors, true);
@@ -86,36 +86,35 @@ sqlsrv_close($conectar);
 <body>
 <form action="modulos/registro_auto.php" method="post">
   <h2>Registro</h2>
-
   <label for="nombre">Nombre:</label>
   <input type="text" id="nombre" name="nombre" required>
-
+  <label for="fechastock">FechaStock:</label>
+  <input type="date" name="fechastock">
   <label for="select1">Modelo:</label>
-  <select id="select1" name="select1" required>
+  <select id="select1" name="modelo" required>
     <option value="">-- Selecciona--</option>
     <?php foreach($options1 as $opt1): ?>
       <option value="<?= htmlspecialchars($opt1['id_ano']) ?>"><?= htmlspecialchars($opt1['ano']) ?></option>
     <?php endforeach; ?>
   </select>
-
-  <label for="select2">Selecciona opción 2:</label>
-  <select id="select2" name="select2" required>
+  <label for="select2">Marca:</label>
+  <select id="select2" name="marca" required>
     <option value="">-- Selecciona --</option>
-    <?php foreach($options2 as $opt2): ?>
+    <?php foreach($options2 as $opt2):?>    
       <option value="<?= htmlspecialchars($opt2['id_marca']) ?>"><?= htmlspecialchars($opt2['nom_marca']) ?></option>
     <?php endforeach; ?>
   </select>
 
-  <label for="select3">Selecciona opción 3:</label>
-  <select id="select3" name="select3" required>
+  <label for="select3">Tipo auto:</label>
+  <select id="select3" name="tipo_auto" required>
     <option value="">-- Selecciona --</option>
     <?php foreach($options3 as $opt3): ?>
       <option value="<?= htmlspecialchars($opt3['id_tipo']) ?>"><?= htmlspecialchars($opt3['tipo_auto']) ?></option>
     <?php endforeach; ?>
   </select>
 
-  <label for="select4">Selecciona opción 4:</label>
-  <select id="select4" name="select4" required>
+  <label for="select4">Tipo de tranmision:</label>
+  <select id="select4" name="tipo_trans" required>
     <option value="">-- Selecciona --</option>
     <?php foreach($options4 as $opt4): ?>
       <option value="<?= htmlspecialchars($opt4['id_tipo_trans']) ?>"><?= htmlspecialchars($opt4['tipo_trans']) ?></option>
