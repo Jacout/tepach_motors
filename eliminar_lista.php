@@ -1,9 +1,9 @@
-<?php include ('conexion.php'); ?>
-
+<?php include ('conexion.php'); //cambiar la conexion
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Inventario actual de automóviles</title>
+    <title>Inventario de Carros</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         table { width: 100%; border-collapse: collapse; }
@@ -15,12 +15,17 @@
     </style>
 </head>
 <body>
-    <div style="text-align: right; margin-bottom: 20px;">
-        <form method="post" action="menu_inventario.php">
-            <button type="submit">regresar</button>
+    </div>
+        <div style="text-align: right; margin-bottom: 20px;">
+        <form method="post" action="menu.php">
+        <button type="submit">regresar</button>
         </form>
     </div>
-    <h1>Inventario actual de automóviles</h1>
+    <h1>Inventario de Carros</h1>
+    <?php if (isset($_GET['eliminado']) && $_GET['eliminado'] == '1'): ?>
+    <div class="mensaje">Auto eliminado con éxito.</div>
+    <?php endif; ?>
+
     
     <table border="1">
         <tr>
@@ -34,7 +39,7 @@
         </tr>
         
         <?php
-        $sql = "SELECT * FROM INV_ACT_EXISTENCIA WHERE fechaStock <= CONVERT(date, GETDATE()) ORDER BY idauto DESC";
+        $sql = "SELECT * FROM INV_ACT_EXISTENCIA"; //cambiar por la vista o un procedimiento
         $stmt = sqlsrv_query($conectar, $sql);
 
         if ($stmt === false) {
@@ -52,6 +57,9 @@
                 <td>".$row['transmision']."</td>
                 <td>".htmlspecialchars($row['nombre'])."</td>
                 <td>".($row['fechaStock'] ? $row['fechaStock']->format('Y-m-d') : 'N/A')."</td>
+                <td class='acciones'>
+                    <a href='modulos/eliminar.php?id=".$row['idauto']."' onclick='return confirm(\"¿Estás seguro de eliminar este auto?\")'>Eliminar</a>
+                </td>
             </tr>";
         }
 

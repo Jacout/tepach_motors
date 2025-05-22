@@ -84,7 +84,7 @@ sqlsrv_close($conectar);
 
 </head>
 <body>
-<form action="modulos/registro_auto.php" method="post">
+<form action="modulos/registros_auto.php" method="post">
   <h2>Registro</h2>
   <label for="nombre">Nombre:</label>
   <input type="text" id="nombre" name="nombre" required>

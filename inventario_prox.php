@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Inventario actual de automóviles</title>
+    <title>Autos próximos a llegar</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         table { width: 100%; border-collapse: collapse; }
@@ -17,24 +17,24 @@
 <body>
     <div style="text-align: right; margin-bottom: 20px;">
         <form method="post" action="menu_inventario.php">
-            <button type="submit">regresar</button>
+            <button type="submit">Regresar</button>
         </form>
     </div>
-    <h1>Inventario actual de automóviles</h1>
+    <h1>Autos próximos a llegar</h1>
     
     <table border="1">
         <tr>
             <th>ID</th>
             <th>Marca</th>
-            <th>tipo de auto</th>
-            <th>modelo</th>
+            <th>Tipo de auto</th>
+            <th>Modelo</th>
             <th>Transmisión</th>
             <th>Nombre</th>
-            <th>Fecha de stock</th>
+            <th>Fecha de llegada</th>
         </tr>
         
         <?php
-        $sql = "SELECT * FROM INV_ACT_EXISTENCIA WHERE fechaStock <= CONVERT(date, GETDATE()) ORDER BY idauto DESC";
+        $sql = "SELECT * FROM INV_ACT_EXISTENCIA WHERE fechaStock > CONVERT(date, GETDATE()) ORDER BY fechaStock ASC";
         $stmt = sqlsrv_query($conectar, $sql);
 
         if ($stmt === false) {
@@ -56,7 +56,7 @@
         }
 
         if (!$hayDatos) {
-            echo "<tr><td colspan='8'>No hay carros registrados</td></tr>";
+            echo "<tr><td colspan='8'>No hay autos próximos a llegar</td></tr>";
         }
 
         sqlsrv_close($conectar);
