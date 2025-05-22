@@ -58,7 +58,7 @@
             <a href="eliminar_lista.php">🗑️ Eliminar un Automóvil</a>
         </div>
         <div style="text-align: right; margin-bottom: 20px;">
-        <form method="post" action="login.php">
+        <form method="post" action="index.html">
         <button type="submit">cerrar sesion</button>
         </form>
         </div>
