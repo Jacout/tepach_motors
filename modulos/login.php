@@ -1,5 +1,6 @@
 <?php
 
+
 include "conexion copy.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $_POST['username'];
@@ -7,11 +8,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Consulta SQL para verificar el usuario y la contraseña
     try{
-    $sql = "EXEC logeo @user='$user'";
-    $stmt = sqlsrv_query($conectar, $sql);
-
+    $sql = "EXEC logeo @user=?";
+    $parametros = array($user);
+    $stmt = sqlsrv_query($conectar, $sql,$parametros);
     //Se valida si hay registros en base al login
-    if(sqlsrv_num_rows($stmt) > 0){
+
+    
+    if($stmt === false){
         echo'<script type="text/javascript">
         alert("Credenciales incorrectas");
         window.location.href="../index.html"
@@ -24,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($row[1]==$pass){
                 echo'<script type="text/javascript">
                 alert("Bienvenido, iniciando sesion");
-                window.location.href="inventario.php"
+                window.location.href="../menu.php"
                 </script>';
                 exit;
             } // si no lo mando a ingresar de nuevo
@@ -38,14 +41,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
     }
             sqlsrv_close($conectar);
-    }
+}
     catch(Exception $e){
-        $ficharo = "logs.txt";
+        $fichero = "logs.txt";
         $errores = sqlsrv_errors();
         file_put_contents($fichero, $errores);
         exit;
     }
-
     /*
     if ($stmt === false) {
         die("<tr><td colspan='8'>Error en la consulta: ".print_r(sqlsrv_errors(), true)."</td></tr>");

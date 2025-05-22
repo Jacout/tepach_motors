@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles/estilos.css">
+<title>Login Tepach Motors</title>
+</head>
+<body>
+  <div class="login-container" role="main">
+    <h1>Tepach Motors</h1>
+    <p class="subtitle">Inicia sesión para acceder a tu cuenta</p>
+    <form id="loginForm" novalidate action="modulos/login.php" method="POST">
+      <div class="error-msg" id="errorMsg" role="alert"></div>
+      <input type="text" id="username" name="username" placeholder="Usuario" autocomplete="username" required aria-required="true" />
+      <input type="password" id="password" name="password" placeholder="Contraseña" autocomplete="current-password" required aria-required="true" />
+      <button type="submit" aria-label="Iniciar sesión">Ingresar</button>
+    </form>
+    <div class="success-msg" id="successMsg" role="alert">¡Inicio de sesión exitoso!</div>
+    <footer>© 2024 Concesionaria AutoElite. Todos los derechos reservados.</footer>
+  </div>
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var errorMsg = document.getElementById('errorMsg');
+    var successMsg = document.getElementById('successMsg');
+    errorMsg.style.display = 'none';
+    successMsg.style.display = 'none';
+
+    var username = document.getElementById('username').value.trim();
+    var password = document.getElementById('password').value.trim();
+
+    if (!username || !password) {
+        errorMsg.textContent = 'Por favor, ingresa usuario y contraseña.';
+        errorMsg.style.display = 'block';
+        return;
+    }
+
+    // Aquí se podría integrar la verificación con backend si existiese
+    // Por ahora, simulamos un login exitoso
+    successMsg.style.display = 'block';
+    this.reset();
+  });
+</script>
+</body>
+</html>
+
